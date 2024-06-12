@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ms-venta" />
+        <module name="ms-config-server" />
+        <module name="ms-libro" />
+        <module name="ms-customer" />
+        <module name="ms-detalleventa" />
+        <module name="ms-inventario" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ms-config-server" options="-parameters" />
+      <module name="ms-customer" options="-parameters" />
+      <module name="ms-detalleventa" options="-parameters" />
+      <module name="ms-inventario" options="-parameters" />
+      <module name="ms-libro" options="-parameters" />
+      <module name="ms-venta" options="-parameters" />
+    </option>
+  </component>
+</project>
