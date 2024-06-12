@@ -14,8 +14,7 @@ spring:
           uri: https://github.com/Yessenia1/ventalibros.git # ruta del repositorio git
           searchPaths: config-data
           default-label: main
-
   security:
     user:
-      name: root
       password: 123456
+      name: root
