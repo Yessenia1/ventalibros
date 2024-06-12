@@ -25,6 +25,12 @@ spring:
             - Path=/libro/**
           filters:
             - AuthFilter
+        - id: ms-catalogo-service
+          uri: lb://ms-catalogo-service
+          predicates:
+            - Path=/catalogo/**
+          filters:
+            - AuthFilter
 
 
 
