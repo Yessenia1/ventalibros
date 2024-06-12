@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/ms-auth/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-libro/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-venta/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-catalogo/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-customer/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-inventario/pom.xml" />
+        <option value="$PROJECT_DIR$/Nueva carpeta/ms-auth/pom.xml" />
+        <option value="$PROJECT_DIR$/Nueva carpeta/ms-cliente/pom.xml" />
+        <option value="$PROJECT_DIR$/Nueva carpeta/ms-catalogo/pom.xml" />
+        <option value="$PROJECT_DIR$/Nueva carpeta/ms-config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/Nueva carpeta/ms-pedido-service/pom.xml" />
+        <option value="$PROJECT_DIR$/Nueva carpeta/ms-gateway-service/pom.xml" />
+        <option value="$PROJECT_DIR$/Nueva carpeta/ms-registry-server/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-detalleventa/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-gateway-service/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-registry-server/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

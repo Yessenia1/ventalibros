@@ -16,8 +16,10 @@ public class LibroController {
 
     @GetMapping()
     public ResponseEntity<List<Libro>> list() {
+
         return ResponseEntity.ok().body(libroService.listar());
     }
+
     @PostMapping()
     public ResponseEntity<Libro> save(@RequestBody Libro libro){
         return ResponseEntity.ok(libroService.guardar(libro));
