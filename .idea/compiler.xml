@@ -7,47 +7,26 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ms-venta" />
-        <module name="ms-libro" />
-        <module name="auth-service" />
-        <module name="ms-customer" />
-        <module name="ms-registry-server (1)" />
         <module name="ms-gateway-service (1)" />
-        <module name="ms-detalleventa" />
-        <module name="ms-config-server (1)" />
-        <module name="ms-catalogo" />
+        <module name="ms-customer" />
         <module name="ms-inventario" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="auth-service (1)" target="17" />
-      <module name="ms-catalogo (1)" target="17" />
-      <module name="ms-cliente" target="17" />
-      <module name="ms-config-server" target="17" />
-      <module name="ms-gateway-service" target="17" />
-      <module name="ms-pedido-service" target="17" />
-      <module name="ms-registry-server" target="17" />
+      <module name="auth-service" target="17" />
+      <module name="ms-catalogo" target="17" />
+      <module name="ms-config-server (1)" target="17" />
+      <module name="ms-detalleventa" target="17" />
+      <module name="ms-libro" target="17" />
+      <module name="ms-registry-server (1)" target="17" />
+      <module name="ms-venta" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="auth-service" options="-parameters" />
-      <module name="auth-service (1)" options="-parameters" />
-      <module name="ms-catalogo" options="-parameters" />
-      <module name="ms-catalogo (1)" options="-parameters" />
-      <module name="ms-cliente" options="-parameters" />
-      <module name="ms-config-server" options="-parameters" />
-      <module name="ms-config-server (1)" options="-parameters" />
       <module name="ms-customer" options="-parameters" />
-      <module name="ms-detalleventa" options="-parameters" />
-      <module name="ms-gateway-service" options="-parameters" />
       <module name="ms-gateway-service (1)" options="-parameters" />
       <module name="ms-inventario" options="-parameters" />
-      <module name="ms-libro" options="-parameters" />
-      <module name="ms-pedido-service" options="-parameters" />
-      <module name="ms-registry-server" options="-parameters" />
-      <module name="ms-registry-server (1)" options="-parameters" />
-      <module name="ms-venta" options="-parameters" />
     </option>
   </component>
 </project>

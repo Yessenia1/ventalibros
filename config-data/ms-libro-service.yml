@@ -1,6 +1,10 @@
 server:
+<<<<<<< HEAD
   #port: 8093
   port: ${PORT:${SERVER_PORT:0}}
+=======
+  port: 8080
+>>>>>>> bbcd8e81a0f60e74755cd00a3d077a3680f5c818
 springdoc:
   api-docs:
     enabled: true
