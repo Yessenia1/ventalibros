@@ -6,6 +6,10 @@ import com.example.msinventario.util.PdfUtils;
 import com.example.msinventario.util.UserExcelExporter;
 import com.itextpdf.text.DocumentException;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -61,8 +65,8 @@ public class InventarioController {
     }
     @GetMapping("/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
-        response.setContentType("application/octet-stream");
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         String currentDateTime = dateFormatter.format(new Date());
 
         String headerKey = "Content-Disposition";
@@ -71,8 +75,26 @@ public class InventarioController {
 
         List<Inventario> inventarios = inventarioService.listar();
 
-        UserExcelExporter excelExporter = new UserExcelExporter(inventarios);
+        // Creamos el libro de Excel
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Inventarios");
 
-        excelExporter.export(response);
+        // Crea la fila de encabezado
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("ID");
+        headerRow.createCell(1).setCellValue("Nombre");
+        headerRow.createCell(2).setCellValue("Cantidad");
+
+        // Llena los datos
+        int rowNum = 1;
+        for (Inventario inventario : inventarios) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(inventario.getId());
+            row.createCell(1).setCellValue(inventario.getNombre());
+        }
+
+        // Escribir y cerrar
+        workbook.write(response.getOutputStream());
+        workbook.close();
     }
 }
