@@ -1,7 +1,9 @@
 package com.example.msventa.entity;
 
-import com.example.msventa.dto.CustomerDto;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Entity
@@ -12,7 +14,4 @@ public class Venta {
     private Integer id;
     private String fecha;
     private String total;
-
-    @Transient
-    private CustomerDto customer;
 }
