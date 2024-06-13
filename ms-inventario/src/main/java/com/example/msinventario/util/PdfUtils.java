@@ -17,11 +17,17 @@ public class PdfUtils {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PdfWriter.getInstance(document, outputStream);
         document.open();
+
+        // Título del documento
+        Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+        Paragraph title = new Paragraph("Boleta de Venta de Libros", titleFont);
+        title.setAlignment(Paragraph.ALIGN_CENTER);
+        document.add(title);
         // Write column names
         // Map<String, Object> firstRow = queryResults.get(0);
-        for (Inventario categoria : inventarios) {
+        for (Inventario inventario : inventarios) {
             Font boldFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
-            Paragraph paragraph = new Paragraph(categoria.getNombre(), boldFont);
+            Paragraph paragraph = new Paragraph(inventario.getNombre(), boldFont);
             document.add(paragraph);
         }
         document.add(new Paragraph("\n"));

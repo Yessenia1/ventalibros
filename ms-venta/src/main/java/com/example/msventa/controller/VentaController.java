@@ -44,7 +44,7 @@ public class VentaController {
 
     private ResponseEntity<Venta> fallBackVentaListarPorIdCB(@PathVariable(required = true) Integer id, RuntimeException e) {
         Venta venta = new Venta();
-        venta.setId(90000);
+        venta.setId(id);
         return ResponseEntity.ok().body(venta);
     }
 }

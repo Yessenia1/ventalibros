@@ -35,6 +35,11 @@ public class VentaServiceImpl implements VentaService {
         Venta venta = ventaRepository.findById(id).get();
         venta.setCustomerDto(customerFeign.buscarPorId(venta.getCustomerDto()).getBody());
 
+        List<VentaDetalle> ventaDetalles = venta.getDetalle().stream().map(ventaDetalle -> {
+            ventaDetalle.setLibroDto(libroFeign.buscarPorId(ventaDetalle.getLibroId()).getBody());
+            return ventaDetalle;
+        }).toList();
+        venta.setDetalle(ventaDetalles);
 
         return venta;
     }

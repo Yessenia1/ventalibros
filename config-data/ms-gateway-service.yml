@@ -25,10 +25,29 @@ spring:
             - Path=/libro/**
           filters:
             - AuthFilter
+
         - id: ms-catalogo-service
           uri: lb://ms-catalogo-service
           predicates:
             - Path=/catalogo/**
+          filters:
+            - AuthFilter
+        - id: ms-customer-service
+          uri: lb://ms-customer-service
+          predicates:
+            - Path=/customer/**
+          filters:
+            - AuthFilter
+        - id: ms-venta-service
+          uri: lb://ms-venta-service
+          predicates:
+            - Path=/customer/**, /inventario/**, /libro/**
+          filters:
+            - AuthFilter
+        - id: ms-inventario-service
+          uri: lb://ms-inventario-service
+          predicates:
+            - Path=/inventario/**
           filters:
             - AuthFilter
 

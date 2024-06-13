@@ -61,7 +61,7 @@ public class InventarioController {
     @GetMapping("/pdf")
     public ResponseEntity<byte[]> exportPdf() throws IOException, DocumentException {
         // List<Map<String, Object>> queryResults = myService.executeQuery(request);
-        ByteArrayOutputStream pdfStream = PdfUtils.generatePdfStream(categoriaService.listar()
+        ByteArrayOutputStream pdfStream = PdfUtils.generatePdfStream(inventarioService.listar()
         );
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
