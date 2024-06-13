@@ -2,6 +2,7 @@ package com.example.msventa.controller;
 
 import com.example.msventa.entity.Venta;
 import com.example.msventa.service.VentaService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +24,12 @@ public class VentaController {
     public ResponseEntity<Venta> guardar(@RequestBody Venta venta) {
         return ResponseEntity.ok(ventaService.guardar(venta));
     }
-
+    @CircuitBreaker(name = "ventaListarPorIdCB", fallbackMethod = "fallBackVentaListarPorIdCB")
     @GetMapping("/{id}")
-    public ResponseEntity<Venta> buscarPOrId(@PathVariable(required = true) Integer id) {
-        return ResponseEntity.ok(ventaService.buscarPorId(id).get());
+    public ResponseEntity<Venta> buscarPorId(@PathVariable(required = true) Integer id) {
+        return ResponseEntity.ok(ventaService.buscarPorId(id));
     }
-
+    @CircuitBreaker(name = "ventaListarPorIdCB", fallbackMethod = "fallBackVentaListarPorIdCB")
     @PutMapping
     public ResponseEntity<Venta> actualizar(@RequestBody Venta venta) {
         return ResponseEntity.ok(ventaService.actualizar(venta));
@@ -39,5 +40,11 @@ public class VentaController {
     public ResponseEntity<List<Venta>> eliminar(@PathVariable(required = true) Integer id) {
         ventaService.eliminar(id);
         return ResponseEntity.ok(ventaService.listar());
+    }
+
+    private ResponseEntity<Venta> fallBackVentaListarPorIdCB(@PathVariable(required = true) Integer id, RuntimeException e) {
+        Venta venta = new Venta();
+        venta.setId(90000);
+        return ResponseEntity.ok().body(venta);
     }
 }

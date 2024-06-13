@@ -12,7 +12,7 @@ public interface LibroFeign {
     @GetMapping("/{id}")
     @CircuitBreaker(name = "libroListarPorIdCB", fallbackMethod = "fallbackLibroPorId")
     public ResponseEntity<LibroDto> buscarPorId(@PathVariable(required = true) Integer id);
-    default ResponseEntity<LibroDto> fallbackProductoPorId(Integer id, Exception e) {
+    default ResponseEntity<LibroDto> fallbackLibroPorId(Integer id, Exception e) {
         return ResponseEntity.ok(new LibroDto());
     }
 }

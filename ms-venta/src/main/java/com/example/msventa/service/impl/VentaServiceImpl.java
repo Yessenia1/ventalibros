@@ -31,19 +31,14 @@ public class VentaServiceImpl implements VentaService {
     }
 
     @Override
-    public Optional<Venta> buscarPorId(Integer id) {
+    public Venta buscarPorId(Integer id) {
         Venta venta = ventaRepository.findById(id).get();
-        venta.setCustomerDto(customerFeign.busacarPorId(venta.getCustomerDto().getId()).getBody());
-        /*for (PedidoDetalle pedidoDetalle: pedido.getDetalle()){
-            pedidoDetalle.setProductoDto(productoFeign.buscarPOrId(ventaDetalle.getLibroId()).getBody());
-        }*/
-        List<VentaDetalle>ventaDetalles = venta.getDetalle().stream().map(ventaDetalle -> {
-            ventaDetalle.setLibroDto(libroFeign.buscarPorId(ventaDetalle.getLibroId()).getBody());
-            return ventaDetalle;
-        }).toList();
-        venta.setDetalle(ventaDetalles);
-        return ventaRepository.findById(id);
+        venta.setCustomerDto(customerFeign.buscarPorId(venta.getCustomerDto()).getBody());
+
+
+        return venta;
     }
+
 
     @Override
     public Venta actualizar(Venta venta) {
