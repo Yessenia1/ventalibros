@@ -1,6 +1,7 @@
 package com.example.msventa.service.impl;
 
 import com.example.msventa.entity.Venta;
+import com.example.msventa.feign.CustomerFeign;
 import com.example.msventa.repository.VentaRepository;
 import com.example.msventa.service.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ import java.util.Optional;
 public class VentaServiceImpl implements VentaService {
     @Autowired
     private VentaRepository ventaRepository;
+
+    @Autowired
+    private CustomerFeign customerFeign;
 
     @Override
     public List<Venta> listar() {
@@ -30,8 +34,10 @@ public class VentaServiceImpl implements VentaService {
     }
 
     @Override
-    public Optional<Venta> listarPorId(Integer id) {
-        return ventaRepository.findById(id);
+    public Venta listarPorId(Integer id) {
+        Venta venta = ventaRepository.findById(id).get();
+        venta.setCustomerDto(customerFeign.listarPorId(venta.getCustomerDto()).getBody());
+        return venta;
     }
 
     @Override

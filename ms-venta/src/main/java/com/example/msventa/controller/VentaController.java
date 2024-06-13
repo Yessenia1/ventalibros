@@ -28,7 +28,7 @@ public class VentaController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<Venta> listById(@PathVariable(required = true) Integer id){
-        return ResponseEntity.ok().body(ventaService.listarPorId(id).get());
+        return ResponseEntity.ok().body(ventaService.listarPorId(id));
     }
     @DeleteMapping("/{id}")
     public String deleteById(@PathVariable(required = true) Integer id){
