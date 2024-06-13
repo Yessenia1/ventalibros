@@ -8,9 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
-
-@SpringBootApplication
 @EnableFeignClients
+@SpringBootApplication
 public class MsVentaApplication {
 
 	public static void main(String[] args) {

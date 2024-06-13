@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "ms-customer-service",path = "/customer")
 public interface CustomerFeign {
-    @GetMapping("/{id}")
+
+    @GetMapping("/{id}")  // Debes especificar la ruta completa del endpoint del servicio de clientes
     @CircuitBreaker(name = "customerListarPorIdCB", fallbackMethod = "fallbackCustomerPorId")
-    public ResponseEntity<CustomerDto> listarPorId(@PathVariable(required = true) CustomerDto id);
-    default ResponseEntity<CustomerDto> fallbackCustomerPorId(Integer id, Exception e) {
+    public ResponseEntity<CustomerDto> busacarPorId(@PathVariable(required = true) Integer id);
+    default ResponseEntity<CustomerDto> fallbackClientePorId(Integer id, Exception e) {
         return ResponseEntity.ok(new CustomerDto());
     }
 }
+

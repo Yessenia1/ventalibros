@@ -7,35 +7,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class InventarioServiceImpl implements InventarioService {
     @Autowired
     private InventarioRepository inventarioRepository;
-
     @Override
     public List<Inventario> listar() {
         return inventarioRepository.findAll();
     }
 
     @Override
-    public Inventario guardar(Inventario inventario) {
+    public Inventario guardar(Inventario categoria) {
+        return inventarioRepository.save(categoria);
+    }
+
+    @Override
+    public Inventario buscarPorId(Integer id) {
+        return inventarioRepository.findById(id).get();
+    }
+
+    @Override
+        public Inventario editar(Inventario inventario) {
         return inventarioRepository.save(inventario);
     }
 
     @Override
-    public Inventario actualizar(Inventario inventario) {
-        return inventarioRepository.save(inventario);
-    }
-
-    @Override
-    public Optional<Inventario> listarPorId(Integer id) {
-        return inventarioRepository.findById(id);
-    }
-
-    @Override
-    public void eliminarPorId(Integer id) {
+    public void eliminar(Integer id) {
         inventarioRepository.deleteById(id);
     }
 }

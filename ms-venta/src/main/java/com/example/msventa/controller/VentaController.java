@@ -14,25 +14,30 @@ public class VentaController {
     @Autowired
     private VentaService ventaService;
 
-    @GetMapping()
-    public ResponseEntity<List<Venta>> list() {
-        return ResponseEntity.ok().body(ventaService.listar());
+    @GetMapping
+    public ResponseEntity<List<Venta>> listar() {
+        return ResponseEntity.ok(ventaService.listar());
     }
-    @PostMapping()
-    public ResponseEntity<Venta> save(@RequestBody Venta venta){
+
+    @PostMapping
+    public ResponseEntity<Venta> guardar(@RequestBody Venta venta) {
         return ResponseEntity.ok(ventaService.guardar(venta));
     }
-    @PutMapping()
-    public ResponseEntity<Venta> update(@RequestBody Venta venta){
-        return ResponseEntity.ok(ventaService.actualizar(venta));
-    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Venta> listById(@PathVariable(required = true) Integer id){
-        return ResponseEntity.ok().body(ventaService.listarPorId(id));
+    public ResponseEntity<Venta> buscarPOrId(@PathVariable(required = true) Integer id) {
+        return ResponseEntity.ok(ventaService.buscarPorId(id).get());
     }
+
+    @PutMapping
+    public ResponseEntity<Venta> actualizar(@RequestBody Venta venta) {
+        return ResponseEntity.ok(ventaService.actualizar(venta));
+
+    }
+
     @DeleteMapping("/{id}")
-    public String deleteById(@PathVariable(required = true) Integer id){
-        ventaService.eliminarPorId(id);
-        return "Eliminacion Correcta";
+    public ResponseEntity<List<Venta>> eliminar(@PathVariable(required = true) Integer id) {
+        ventaService.eliminar(id);
+        return ResponseEntity.ok(ventaService.listar());
     }
 }

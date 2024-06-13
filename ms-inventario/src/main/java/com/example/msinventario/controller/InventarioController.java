@@ -30,32 +30,38 @@ public class InventarioController {
     @Autowired
     private InventarioService inventarioService;
 
-    @GetMapping()
-    public ResponseEntity<List<Inventario>> list() {
-        return ResponseEntity.ok().body(inventarioService.listar());
-    }
-    @PostMapping()
-    public ResponseEntity<Inventario> save(@RequestBody Inventario inventario){
-        return ResponseEntity.ok(inventarioService.guardar(inventario));
-    }
-    @PutMapping()
-    public ResponseEntity<Inventario> update(@RequestBody Inventario inventario){
-        return ResponseEntity.ok(inventarioService.actualizar(inventario));
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<Inventario> listById(@PathVariable(required = true) Integer id){
-        return ResponseEntity.ok().body(inventarioService.listarPorId(id).get());
-    }
-    @DeleteMapping("/{id}")
-    public String deleteById(@PathVariable(required = true) Integer id){
-        inventarioService.eliminarPorId(id);
-        return "Eliminacion Correcta";
+    @GetMapping
+    public ResponseEntity<List<Inventario>> listar() {
+        return ResponseEntity.ok(inventarioService.listar());
     }
 
+    @PostMapping
+    public ResponseEntity<Inventario> guardar(@RequestBody Inventario inventario) {
+        return ResponseEntity.ok(inventarioService.guardar(inventario));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Inventario> buscarPorId(@PathVariable(required = true) Integer id) {
+        return ResponseEntity.ok(inventarioService.buscarPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Inventario> editar(@PathVariable(required = true) Integer id,
+                                            @RequestBody Inventario inventario) {
+        inventario.setId(id);
+        return ResponseEntity.ok(inventarioService.editar(inventario));
+
+    }
+
+    @DeleteMapping("/{id}")
+    public String eliminar(@PathVariable(required = true) Integer id) {
+        inventarioService.eliminar(id);
+        return "Eliminacion correcta";
+    }
     @GetMapping("/pdf")
     public ResponseEntity<byte[]> exportPdf() throws IOException, DocumentException {
         // List<Map<String, Object>> queryResults = myService.executeQuery(request);
-        ByteArrayOutputStream pdfStream = PdfUtils.generatePdfStream(inventarioService.listar()
+        ByteArrayOutputStream pdfStream = PdfUtils.generatePdfStream(categoriaService.listar()
         );
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
@@ -65,36 +71,18 @@ public class InventarioController {
     }
     @GetMapping("/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
 
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
 
-        List<Inventario> inventarios = inventarioService.listar();
+        List<Inventario> categorias = inventarioService.listar();
 
-        // Creamos el libro de Excel
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Inventarios");
+        UserExcelExporter excelExporter = new UserExcelExporter(categorias);
 
-        // Crea la fila de encabezado
-        Row headerRow = sheet.createRow(0);
-        headerRow.createCell(0).setCellValue("ID");
-        headerRow.createCell(1).setCellValue("Nombre");
-        headerRow.createCell(2).setCellValue("Cantidad");
-
-        // Llena los datos
-        int rowNum = 1;
-        for (Inventario inventario : inventarios) {
-            Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(inventario.getId());
-            row.createCell(1).setCellValue(inventario.getNombre());
-        }
-
-        // Escribir y cerrar
-        workbook.write(response.getOutputStream());
-        workbook.close();
+        excelExporter.export(response);
     }
 }
