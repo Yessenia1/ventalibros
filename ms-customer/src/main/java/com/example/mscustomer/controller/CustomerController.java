@@ -23,11 +23,11 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.guardar(customer));
     }
     @PutMapping()
-    public ResponseEntity<Customer> update(@RequestBody Customer customer){
+    public ResponseEntity<Customer> actualizar(@RequestBody Customer customer){
         return ResponseEntity.ok(customerService.actualizar(customer));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> listById(@PathVariable(required = true) Integer id){
+    public ResponseEntity<Customer> listarPorId(@PathVariable(required = true) Integer id){
         return ResponseEntity.ok().body(customerService.listarPorId(id).get());
     }
     @DeleteMapping("/{id}")
