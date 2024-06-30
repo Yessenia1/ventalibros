@@ -1,23 +1,19 @@
 server:
   port: 8095
 
-
 eureka:
   client:
     serviceUrl:
-      #defaultZone: http://localhost:8090/eureka
       defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
   instance:
-    #hostname: localhost
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
 
 spring:
   cloud:
     gateway:
       discovery:
         locator:
-          enable: true
+          enabled: true
       routes:
         - id: ms-book-service
           uri: lb://ms-book-service
@@ -28,7 +24,7 @@ spring:
         - id: ms-venta-service
           uri: lb://ms-venta-service
           predicates:
-            - Path=/customer/**, /inventario/**, /libro/**,
+            - Path=/customer/**, /inventario/**, /libro/**
           filters:
             - AuthFilter
         - id: ms-cliente-service
