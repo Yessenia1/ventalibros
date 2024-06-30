@@ -31,7 +31,7 @@ spring:
         - id: ms-venta-service
           uri: lb://ms-venta-service
           predicates:
-            - Path=/customer/**, /inventario/**, /libro/**,
+            - Path=/customer/**, /inventario/**
           filters:
             - AuthFilter
 
