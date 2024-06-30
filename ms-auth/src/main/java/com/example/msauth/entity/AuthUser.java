@@ -22,11 +22,11 @@ public class AuthUser {
     private String userName;
     private Roles rol;
     private String password;
-    private Integer cliente_Id;
-    private Integer vendedor_Id;
-public enum Roles {
-    CLIENTE,
-    VENDEDOR
+    private Integer clienteId;
+    private Integer vendedorId;
 
-}
+    public enum Roles {
+        CLIENTE,
+        VENDEDOR
+    }
 }
