@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
     @Autowired
@@ -33,5 +35,9 @@ public class CategoriaServiceImpl implements CategoriaService {
     public void eliminar(Integer id){
          categoriaRepository.deleteById(id);
 
+    }
+    @Override
+    public Optional<Categoria> listarPorId(Integer id) {
+        return categoriaRepository.findById(id);
     }
 }

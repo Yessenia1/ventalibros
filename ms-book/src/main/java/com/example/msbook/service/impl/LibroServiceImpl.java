@@ -1,12 +1,14 @@
 package com.example.msbook.service.impl;
 
 import com.example.msbook.entity.Libro;
+import com.example.msbook.entity.Provedores;
 import com.example.msbook.repository.LibroRepository;
 import com.example.msbook.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LibroServiceImpl implements LibroService {
@@ -35,5 +37,9 @@ public class LibroServiceImpl implements LibroService {
     @Override
     public void eliminar(Integer id) {
         libroRepository.deleteById(id);
+    }
+    @Override
+    public Optional<Libro> listarPorId(Integer id) {
+        return libroRepository.findById(id);
     }
 }

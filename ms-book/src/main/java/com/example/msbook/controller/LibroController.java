@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/libros")
@@ -32,5 +33,9 @@ public class LibroController {
     @PostMapping("/{id}")
     public Libro editarLibro(@RequestBody Libro libro, @PathVariable Integer id) {
         return libroService.editar(libro, id);
+    }
+    @GetMapping("/{id}")
+    public Optional<Libro> listarlibroId(@PathVariable Integer id) {
+        return libroService.listarPorId(id);
     }
 }
