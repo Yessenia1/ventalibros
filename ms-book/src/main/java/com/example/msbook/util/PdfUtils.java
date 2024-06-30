@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class PdfUtils {
-    public static ByteArrayOutputStream generatePdfStream(List<com.example.msbook.entity.Book> books
+    public static ByteArrayOutputStream generatePdfStream(List<com.example.msbook.entity.Libro> books
     ) throws DocumentException {
         Document document = new Document();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -17,9 +17,9 @@ public class PdfUtils {
         document.open();
         // Write column names
         // Map<String, Object> firstRow = queryResults.get(0);
-        for (com.example.msbook.entity.Book book : books) {
+        for (com.example.msbook.entity.Libro book : books) {
             Font boldFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
-            Paragraph paragraph = new Paragraph(book.getNombre(), boldFont);
+            Paragraph paragraph = new Paragraph(book.getTitulo(), boldFont);
             document.add(paragraph);
         }
         document.add(new Paragraph("\n"));

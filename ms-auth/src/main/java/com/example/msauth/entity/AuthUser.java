@@ -20,6 +20,11 @@ public class AuthUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String userName;
+    private Roles rol;
     private String password;
+public enum Roles {
+    CLIENTE,
+    VENDEDOR
 
+}
 }

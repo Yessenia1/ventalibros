@@ -15,9 +15,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class UserExcelExporter {
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
-    private List<com.example.msbook.entity.Book> listUsers;
+    private List<com.example.msbook.entity.Libro> listUsers;
 
-    public UserExcelExporter(List<com.example.msbook.entity.Book> books)
+    public UserExcelExporter(List<com.example.msbook.entity.Libro> books)
     {
         this.listUsers = books;
         workbook = new XSSFWorkbook();
@@ -62,12 +62,12 @@ public class UserExcelExporter {
         font.setFontHeight(14);
         style.setFont(font);
 
-        for (com.example.msbook.entity.Book book : listUsers) {
+        for (com.example.msbook.entity.Libro book : listUsers) {
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
 
             createCell(row, columnCount++, book.getId(), style);
-            createCell(row, columnCount++, book.getNombre(), style);
+            createCell(row, columnCount++, book.getTitulo(), style);
 
 
         }
