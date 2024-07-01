@@ -13,4 +13,7 @@ public interface AuthUserService {
 
 
     public TokenDto validate(String token);
+
+
+    Integer getUserIdFromToken(String token);
 }

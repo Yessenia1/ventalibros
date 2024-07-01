@@ -15,36 +15,11 @@ public class VentaController {
     @Autowired
     private VentaService ventaService;
 
-    @GetMapping
-    public ResponseEntity<List<Venta>> listar() {
-        return ResponseEntity.ok(ventaService.listar());
-    }
 
     @PostMapping
-    public ResponseEntity<Venta> guardar(@RequestBody Venta venta) {
-        return ResponseEntity.ok(ventaService.guardar(venta));
-    }
-    @CircuitBreaker(name = "ventaListarPorIdCB", fallbackMethod = "fallBackVentaListarPorIdCB")
-    @GetMapping("/{id}")
-    public ResponseEntity<Venta> buscarPorId(@PathVariable(required = true) Integer id) {
-        return ResponseEntity.ok(ventaService.buscarPorId(id));
-    }
-    @CircuitBreaker(name = "ventaListarPorIdCB", fallbackMethod = "fallBackVentaListarPorIdCB")
-    @PutMapping
-    public ResponseEntity<Venta> actualizar(@RequestBody Venta venta) {
-        return ResponseEntity.ok(ventaService.actualizar(venta));
-
+    public ResponseEntity<Venta> realizarVenta(@RequestBody Venta venta, @RequestHeader("Authorization") String token) {
+        Venta nuevaVenta = ventaService.realizarVenta(venta, token);
+        return ResponseEntity.ok(nuevaVenta);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<List<Venta>> eliminar(@PathVariable(required = true) Integer id) {
-        ventaService.eliminar(id);
-        return ResponseEntity.ok(ventaService.listar());
-    }
-
-    private ResponseEntity<Venta> fallBackVentaListarPorIdCB(@PathVariable(required = true) Integer id, RuntimeException e) {
-        Venta venta = new Venta();
-        venta.setId(id);
-        return ResponseEntity.ok().body(venta);
-    }
 }

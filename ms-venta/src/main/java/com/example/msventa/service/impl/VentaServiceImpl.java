@@ -1,58 +1,43 @@
 package com.example.msventa.service.impl;
 
 import com.example.msventa.entity.Venta;
-import com.example.msventa.entity.VentaDetalle;
+import com.example.msventa.feign.AuthFeign;
 import com.example.msventa.feign.CustomerFeign;
 import com.example.msventa.feign.LibroFeign;
 import com.example.msventa.repository.VentaRepository;
 import com.example.msventa.service.VentaService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VentaServiceImpl implements VentaService {
     @Autowired
     VentaRepository ventaRepository;
-    @Autowired
-    private CustomerFeign customerFeign;
+
     @Autowired
     private LibroFeign libroFeign;
-    @Override
-    public List<Venta> listar() {
-        return ventaRepository.findAll();
+
+    @Autowired
+    private AuthFeign authFeign;
+
+    @Transactional
+    public Venta realizarVenta(Venta venta, String token) {
+        // Obtener el userId desde el token
+        ResponseEntity<Integer> response = authFeign.getUserId(token);
+        if (response.getStatusCode().is2xxSuccessful()) {
+            Integer userId = response.getBody();
+            venta.getCustomer().setId(userId);
+
+            // Aquí puedes agregar la lógica para actualizar el stock de los libros y cualquier otra lógica de negocio
+
+            return ventaRepository.save(venta);
+        } else {
+            throw new RuntimeException("No se pudo obtener el userId del token");
+        }
     }
 
-    @Override
-    public Venta guardar(Venta venta) {
-        return ventaRepository.save(venta);
-    }
-
-    @Override
-    public Venta buscarPorId(Integer id) {
-        Venta venta = ventaRepository.findById(id).get();
-        venta.setCustomerDto(customerFeign.buscarPorId(venta.getCustomerDto()).getBody());
-
-        List<VentaDetalle> ventaDetalles = venta.getDetalle().stream().map(ventaDetalle -> {
-            ventaDetalle.setLibroDto(libroFeign.buscarPorId(ventaDetalle.getLibroId()).getBody());
-            return ventaDetalle;
-        }).toList();
-        venta.setDetalle(ventaDetalles);
-
-        return venta;
-    }
-
-
-    @Override
-    public Venta actualizar(Venta venta) {
-        return ventaRepository.save(venta);
-    }
-
-    @Override
-    public void eliminar(Integer id) {
-        ventaRepository.deleteById(id);
-
-    }
 }

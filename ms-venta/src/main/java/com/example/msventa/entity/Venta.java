@@ -14,12 +14,7 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String fecha;
-    private String total;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "venta_id")
-    private List<VentaDetalle> detalle;
-    @Transient
-    CustomerDto customerDto;
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL)
+    private List<Carrito> items;
 }

@@ -61,4 +61,13 @@ public class AuthUserServiceImpl implements AuthUserService {
             return null;
         return new TokenDto(token);
     }
+
+    @Override
+    public Integer getUserIdFromToken(String token) {
+        if (!jwtProvider.validate(token))
+            return null;
+        String username = jwtProvider.getUserNameFromToken(token);
+        Optional<AuthUser> user = authRepository.findByUserName(username);
+        return user.map(AuthUser::getId).orElse(null);
+    }
 }
