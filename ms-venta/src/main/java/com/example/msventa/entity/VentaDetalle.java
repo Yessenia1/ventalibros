@@ -1,6 +1,7 @@
 package com.example.msventa.entity;
 
 import com.example.msventa.dto.LibroDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,14 +11,16 @@ public class VentaDetalle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Double cantidad;
-    private Double precio;
-    private Integer libroId;
 
-    public VentaDetalle() {
-        this.cantidad = (double) 0;
-        this.precio = (double) 0;
-    }
+    private Integer libroId;
+    private Integer cantidad;
+    private Double precio;
+
+    @ManyToOne
+    @JoinColumn(name = "venta_id")
+    @JsonBackReference
+    private Venta venta;
+
     @Transient
-    LibroDto libroDto;
+    private LibroDto libro;
 }

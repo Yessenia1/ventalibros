@@ -1,12 +1,19 @@
 package com.example.msventa.controller;
 
+import com.example.msventa.dto.LibroDto;
 import com.example.msventa.entity.Venta;
+import com.example.msventa.entity.VentaDetalle;
+import com.example.msventa.feign.LibroFeign;
+import com.example.msventa.service.PdfService;
 import com.example.msventa.service.VentaService;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -14,37 +21,79 @@ import java.util.List;
 public class VentaController {
     @Autowired
     private VentaService ventaService;
+    @Autowired
+    private PdfService pdfService;
+    @Autowired
+    private LibroFeign libroFeign;
 
-    @GetMapping
-    public ResponseEntity<List<Venta>> listar() {
-        return ResponseEntity.ok(ventaService.listar());
+    @PostMapping("/realizar")
+    public ResponseEntity<Venta> realizarVenta(@RequestHeader("Authorization") String token) {
+        Venta nuevaVenta = ventaService.realizarVenta(token);
+        return ResponseEntity.ok(nuevaVenta);
+    }
+    @GetMapping("/listar")
+    public ResponseEntity<List<Venta>> listarVentas() {
+        List<Venta> ventas = ventaService.listarVentas();
+        for (Venta venta : ventas) {
+            for (VentaDetalle detalle : venta.getDetalles()) {
+                ResponseEntity<LibroDto> libroResponse = libroFeign.listarLibro(detalle.getLibroId());
+                if (libroResponse.getStatusCode().is2xxSuccessful()) {
+                    detalle.setLibro(libroResponse.getBody());
+                }
+            }
+        }
+        return ResponseEntity.ok(ventas);
     }
 
-    @PostMapping
-    public ResponseEntity<Venta> guardar(@RequestBody Venta venta) {
-        return ResponseEntity.ok(ventaService.guardar(venta));
-    }
-    @CircuitBreaker(name = "ventaListarPorIdCB", fallbackMethod = "fallBackVentaListarPorIdCB")
-    @GetMapping("/{id}")
-    public ResponseEntity<Venta> buscarPorId(@PathVariable(required = true) Integer id) {
-        return ResponseEntity.ok(ventaService.buscarPorId(id));
-    }
-    @CircuitBreaker(name = "ventaListarPorIdCB", fallbackMethod = "fallBackVentaListarPorIdCB")
-    @PutMapping
-    public ResponseEntity<Venta> actualizar(@RequestBody Venta venta) {
-        return ResponseEntity.ok(ventaService.actualizar(venta));
+    @GetMapping("/{id}/recibo")
+    public ResponseEntity<byte[]> generarRecibo(@PathVariable Integer id) {
+        Venta venta = ventaService.obtenerVentaPorId(id);
+        if (venta == null) {
+            return ResponseEntity.notFound().build();
+        }
 
-    }
+        byte[] pdfBytes = null;
+        try {
+            pdfBytes = pdfService.generarReciboPdf(venta);
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<List<Venta>> eliminar(@PathVariable(required = true) Integer id) {
-        ventaService.eliminar(id);
-        return ResponseEntity.ok(ventaService.listar());
-    }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("filename", "recibo_" + id + ".pdf");
 
-    private ResponseEntity<Venta> fallBackVentaListarPorIdCB(@PathVariable(required = true) Integer id, RuntimeException e) {
-        Venta venta = new Venta();
-        venta.setId(id);
-        return ResponseEntity.ok().body(venta);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(pdfBytes);
+    }
+    @GetMapping("/registroVentasPdf")
+    public ResponseEntity<byte[]> generarRegistroVentasPdf() {
+        List<Venta> ventas = ventaService.listarVentas();
+        for (Venta venta : ventas) {
+            for (VentaDetalle detalle : venta.getDetalles()) {
+                ResponseEntity<LibroDto> libroResponse = libroFeign.listarLibro(detalle.getLibroId());
+                if (libroResponse.getStatusCode().is2xxSuccessful()) {
+                    detalle.setLibro(libroResponse.getBody());
+                }
+            }
+        }
+
+        byte[] pdfBytes = null;
+        try {
+            pdfBytes = pdfService.generarRegistroVentasPdf(ventas);
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("filename", "registro_ventas.pdf");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(pdfBytes);
     }
 }

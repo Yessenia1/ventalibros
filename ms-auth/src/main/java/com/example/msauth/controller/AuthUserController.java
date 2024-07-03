@@ -37,4 +37,17 @@ public class AuthUserController {
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(authUser);
     }
+
+    @GetMapping("/userId")
+    public ResponseEntity<Integer> getUserId(@RequestHeader("Authorization") String token) {
+        // Eliminar el prefijo "Bearer " si está presente
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        Integer userId = authUserService.getUserIdFromToken(token);
+        if (userId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userId);
+    }
 }

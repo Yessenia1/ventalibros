@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -60,5 +61,27 @@ public class AuthUserServiceImpl implements AuthUserService {
         if (!authRepository.findByUserName(username).isPresent())
             return null;
         return new TokenDto(token);
+    }
+
+    @Override
+    public Integer getUserIdFromToken(String token) {
+        if (!jwtProvider.validate(token))
+            return null;
+        String username = jwtProvider.getUserNameFromToken(token);
+        Optional<AuthUser> user = authRepository.findByUserName(username);
+        return user.map(AuthUser::getId).orElse(null);
+    }
+    @Override
+    public List<AuthUser> listarUsuarios() {
+        return authRepository.findAll();
+    }
+
+    @Override
+    public boolean eliminarUsuario(Integer id) {
+        if (!authRepository.findById(id).isPresent()) {
+            return false; // Usuario no encontrado
+        }
+        authRepository.deleteById(id);
+        return true;
     }
 }
