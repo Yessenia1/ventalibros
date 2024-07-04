@@ -1,11 +1,11 @@
-<nav class="bg-white shadow">
+<nav class="encabezado shadow">
   <div class="container mx-auto px-6 py-3 md:flex md:justify-between md:items-center py-5">
     <div class="flex justify-between items-center">
       <div>
-        <a class="text-gray-800 text-xl font-bold md:text-2xl hover:text-gray-700" href="#">LIBRERIA CEACE</a>
+        <a class="text-white text-xl font-bold md:text-2xl hover:text-gray-700" href="#">PAGE PALACE</a>
       </div>
       <div class="flex md:hidden">
-        <button type="button" class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600" aria-label="toggle menu">
+        <button type="button" class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-white" aria-label="toggle menu">
           <svg viewBox="0 0 24 24" class="h-6 w-6 fill-current">
             <path fill-rule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"></path>
           </svg>
@@ -14,16 +14,16 @@
     </div>
     <div class="md:flex items-center">
       <div class="flex flex-col md:flex-row md:mx-6">
-        <a class="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0" routerLink="/inicio">Inicio</a>
-        <a class="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0" href="#">Tienda</a>
+        <a class="my-1 text-sm text-white font-medium hover:text-gray-900 md:mx-4 md:my-0 inicio" routerLink="/inicio">Inicio</a>
       </div>
-      <div class="flex justify-center md:block">
-        <a (click)="openCart()" class="relative text-gray-700 hover:text-gray-600 cursor-pointer">
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div class="flex justify-center md:block mr-4">
+        <a (click)="openCart()" class="relative text-gray-700 hover:text-white cursor-pointer">
+          <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.70711 15.2929C4.07714 15.9229 4.52331 17 5.41421 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <span class="absolute top-0 left-0 rounded-full bg-indigo-500 text-white p-1 text-xs"></span>
+          <span class="absolute top-0 left-0 rounded-full bg-red-500 text-white p-1 text-xs"></span>
         </a>
+        
       </div>
       <div *ngIf="!authService.isLoggedIn()">
         <div class="px-2 py-2 text-white font-semibold rounded-md bg-blue-600 ml-2 hover:bg-blue-500 hover:cursor-pointer">
@@ -33,38 +33,39 @@
           <a routerLink="/registro">Registrarme</a>
         </div>
       </div>
-      <div *ngIf="authService.isLoggedIn()" class="px-2 py-2 text-white font-semibold rounded-md bg-red-600 ml-2 hover:bg-red-500 hover:cursor-pointer">
-        <a (click)="logout()">Cerrar Sesión</a>
-      </div>
       <div *ngIf="authService.isLoggedIn()" class="px-2 py-2 text-white font-semibold rounded-md bg-slate-600 ml-2 hover:bg-slate-500 hover:cursor-pointer">
         <a routerLink="/ventas">Ventas</a>
       </div>
+      <div *ngIf="authService.isLoggedIn()" class="px-2 py-2 text-white font-semibold rounded-md bg-red-600 ml-2 hover:bg-red-500 hover:cursor-pointer">
+        <a (click)="logout()">Cerrar Sesión</a>
+      </div>
+      
     </div>
   </div>
 </nav>
-<section class="bg-white dark:bg-gray-900">
-  <div class="container px-6 py-8 mx-auto">
-    <div class="lg:flex lg:-mx-2">
+<section class="todo h-screen bg-cover bg-center" style="background-image: url(https://media.istockphoto.com/id/1338442792/es/foto/fondo-abstracto-borroso-del-interior-de-la-biblioteca-p%C3%BAblica.jpg?s=612x612&w=0&k=20&c=ccuR1USjwIIt3ET-TFwLvV0AkCltYYF-qgmNKZaUbH4=);">
+  <div class="container px-6 py-8 mx-auto h-full">
+    <div class="lg:flex lg:-mx-2 h-full">
       <!-- Sidebar -->
       <div class="space-y-3 lg:w-1/5 lg:px-2 lg:space-y-4">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-200">Filtros de búsqueda</h2>
+        <h2 class="text-xl font-semibold text-black">Filtros de búsqueda</h2>
         <div>
-          <h3 class="block font-medium text-gray-500 dark:text-gray-300">Categorías</h3>
+          <h3 class="block font-medium text-black categoria"><strong>Categoría</strong></h3>
           <ul class="mt-2 space-y-2">
             <li *ngFor="let categoria of categorias">
               <a (click)="filterByCategory(categoria.id)"
-                class="block font-medium text-gray-500 dark:text-gray-300 hover:underline cursor-pointer">
+                class="block font-medium text-black hover:underline cursor-pointer">
                 {{ categoria.nombre }}
               </a>
             </li>
           </ul>
         </div>
         <div>
-          <h3 class="block font-medium text-gray-500 dark:text-gray-300">Años</h3>
+          <h3 class="block font-medium text-black">Años</h3>
           <ul class="mt-2 space-y-2">
             <li *ngFor="let anio of anios">
               <a (click)="filterByYear(anio)"
-                class="block font-medium text-gray-500 dark:text-gray-300 hover:underline cursor-pointer">
+                class="block font-medium text-black hover:underline cursor-pointer">
                 {{ anio }}
               </a>
             </li>
@@ -73,11 +74,11 @@
       </div>
 
       <!-- Main Content -->
-      <div class="mt-6 lg:mt-0 lg:px-2 lg:w-4/5">
+      <div class="mt-6 lg:mt-0 lg:px-2 lg:w-4/5 overflow-y-auto">
         <div class="flex items-center justify-between text-sm tracking-widest uppercase">
-          <p class="text-gray-500 dark:text-gray-300">{{ books.length }} Items</p>
+          <p class="text-black">{{ books.length }} Items</p>
           <div class="flex items-center">
-            <p class="text-gray-500 dark:text-gray-300">Ordenar</p>
+            <p class="text-black">Ordenar</p>
             <select class="font-medium text-gray-700 bg-transparent dark:text-gray-500 focus:outline-none">
               <option value="#">Recomendados</option>
               <option value="#">Tamaño</option>
@@ -88,12 +89,12 @@
 
         <!-- Books Grid -->
         <div class="grid grid-cols-1 gap-8 mt-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          <div *ngFor="let book of books" class="flex flex-col items-center justify-center w-full max-w-lg mx-auto">
+          <div *ngFor="let book of books" class="libros flex flex-col items-center justify-center w-full max-w-lg mx-auto">
             <img class="object-cover w-full rounded-md h-72 xl:h-80"
               [src]="getImageUrl(book.imagenUrl)" alt="{{ book.titulo }}">
-            <h4 class="mt-2 text-lg font-medium text-gray-700 dark:text-gray-200">{{ book.titulo }}</h4>
-            <p class="text-blue-500">${{ book.precio }}</p>
-            <span class="uppercase text-xs bg-green-50 p-0.5 border-green-500 border rounded text-green-700 font-medium select-none">
+            <h4 class="mt-2 text-lg font-medium text-black">{{ book.titulo }}</h4>
+            <p class="text-black">${{ book.precio }}</p>
+            <span class="p-3 uppercase text-xs  p-0.5 rounded text-black font-medium select-none stock">
               {{ book.stock > 0 ? 'En stock' : 'No hay stock' }}
             </span>
             <div class="inline-flex items-center mt-2">
@@ -109,7 +110,7 @@
               <button (click)="increaseQuantity(book)"
                 class="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m6-6H6" />
                 </svg>
               </button>
             </div>
@@ -126,6 +127,7 @@
     </div>
   </div>
 </section>
+
 
 
 <div *ngIf="isCartOpen" class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">

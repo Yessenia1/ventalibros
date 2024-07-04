@@ -12,3 +12,25 @@ aside {
 main {
   margin-left: 17rem; /* Ajusta según sea necesario */
 }
+.encabezado{
+  background-color: #967c66;
+}
+.tienda{
+  font-size: 25px;
+}
+.inicio{
+  font-size: 25px;
+}
+.stock{
+  background-color: #fda257;
+}
+.libros{
+  padding: 15px;
+  border: 5px solid transparent; /* Borde transparente inicialmente */
+  background-color: rgba(211, 136, 92, 0.5); /* Fondo negro semi-transparente */
+  border-radius: 10px;
+
+}
+.categoria{
+  font-size: 15px;
+}
